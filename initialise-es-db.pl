@@ -73,3 +73,65 @@ my $of_record = $es->indices->put_mapping(
 		},
     }
 );
+
+$result = $es->indices->put_mapping(
+    index => $index_name,
+ 	type => 'person',
+    body  => {
+    	person => {
+	        properties => {
+	            full_name => {
+	            	type => "multi_field",
+					fields => {
+						full_name => {
+							type => "string",
+							index => "analyzed",
+							analyzer => "english",
+						},
+						raw => {
+							type => "string",
+							index => "not_analyzed",
+						},
+					}
+	            },
+	        }
+		},
+    }
+);
+
+$result = $es->indices->put_mapping(
+    index => $index_name,
+ 	type => 'member',
+    body  => {
+    	member => {
+	        properties => {
+	            person_id => {
+	            	type => "string",
+	            	index => "not_analyzed"
+	            },
+	            end_date => {
+	            	type => "date"
+	            },
+	            start_date => {
+	            	type => "date"
+	            },
+	            end_reason => {
+	            	type => "string",
+	            	index => "not_analyzed"
+	            },
+	            id => {
+	            	type => "string",
+	            	index => "not_analyzed"
+	            },
+	            post_id => {
+	            	type => "string",
+	            	index => "not_analyzed"
+	            },
+	            on_behalf_of_id => {
+	            	type => "string",
+	            	index => "not_analyzed"
+	            },
+	        }
+		},
+    }
+);

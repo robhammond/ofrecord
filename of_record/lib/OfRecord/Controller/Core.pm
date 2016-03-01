@@ -7,13 +7,13 @@ sub home {
 	my $es = $self->es;
 	my $mps = $es->search(
 		index => 'ofrecord',
-		type => 'hansard',
+		type => 'person',
 		body => {
 			# query => $query,
 			aggs => {
 				names => {
 					terms => {
-						field => 'speaker_name.raw',
+						field => 'full_name.raw',
 						size => 0
 					}
 				}

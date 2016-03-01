@@ -21,6 +21,9 @@ sub startup {
 	$r->get('/')->to('core#home');
 
 	$r->get('/search')->to('search#home');
+
+	$r->get('/people')->to('people#home');
+	$r->get('/person')->to('people#person');
 }
 
 1;

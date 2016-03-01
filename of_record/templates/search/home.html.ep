@@ -2,7 +2,7 @@
 % title 'Of Record';
 <h2>Search</h2>
 <form action="/search">
-	<input type="text" name="q">
+	<input type="text" name="q" value="<%= param 'q' %>">
 	<button class="btn btn-default">search</button>
 </form>
 <div class="row">
@@ -10,7 +10,7 @@
 		<ul>
 			% for my $res (@$results) {
 				<li>
-					<p><%= $res->{'_source'}->{'speaker_name'} %> (<%= $res->{'_source'}->{'date'} %>)</p>
+					<p><a href="/person?id=<%= $res->{'_source'}->{'speaker_id'} %>"><%= $res->{'_source'}->{'speaker_name'} %></a> (<%= $res->{'_source'}->{'date'} %>)</p>
 					<p><%== $res->{'highlight'}->{'speech'}->[0] %></p>
 				</li>
 			% }

@@ -1,0 +1,7 @@
+% layout 'default';
+% title 'Of Record';
+<h2>people</h2>
+
+<pre>
+%== dumper $results
+</pre>
