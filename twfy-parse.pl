@@ -70,7 +70,7 @@ for my $file (@files) {
 		say "$date $speaker_name";
 		
 		$es->index(
-			index => 'whattheysaid',
+			index => 'ofrecord',
 			type => 'hansard',
 			body => {
 				speech_id => $speech_id,

@@ -1,0 +1,10 @@
+% layout 'default';
+% title 'Of Record';
+<h2>Of Record</h2>
+<form action="/search">
+	<input type="text" name="q">
+	<button class="btn btn-default">search</button>
+</form>
+<pre>
+%== dumper $mps
+</pre>

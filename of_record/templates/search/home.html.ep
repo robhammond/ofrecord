@@ -1,0 +1,22 @@
+% layout 'default';
+% title 'Of Record';
+<h2>Search</h2>
+<form action="/search">
+	<input type="text" name="q">
+	<button class="btn btn-default">search</button>
+</form>
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<ul>
+			% for my $res (@$results) {
+				<li>
+					<p><%= $res->{'_source'}->{'speaker_name'} %> (<%= $res->{'_source'}->{'date'} %>)</p>
+					<p><%== $res->{'highlight'}->{'speech'}->[0] %></p>
+				</li>
+			% }
+		</ul>
+	</div>
+</div>
+<pre>
+%== dumper $results
+</pre>

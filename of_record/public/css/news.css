@@ -1,0 +1,223 @@
+.navbar {
+	border-bottom: 1px solid #e2e2e2;
+	display:block;
+	min-height: 45px;
+	padding: 0px 40px;
+	margin-bottom: 0;
+}
+
+footer {
+	position:relative;
+	margin-bottom: 10px;
+	font-size: 10px;
+	text-align: center;
+	bottom:0;
+}
+
+.fc-event-container a:hover {
+    color:white;
+    text-decoration: underline;
+}
+
+.event-tech {
+	background-color: red !important;
+	border: solid 1px red !important;
+}
+
+.event-celebs, .event-music {
+	background-color: orange !important;
+	border: solid 1px orange !important;
+}
+
+.event-sport {
+	background-color: green !important;
+	border: solid 1px green !important;
+}
+
+.event-news {
+	background-color: blue !important;
+	border: solid 1px blue !important;
+}
+
+.event-money {
+    background-color: #7FFFD4 !important;
+    border: solid 1px #7FFFD4 !important;
+}
+
+.event-travel {
+    background-color: #00FFFF !important;
+    border: solid 1px #00FFFF !important;
+}
+
+.event-tv, .event-film {
+    background-color: purple !important;
+    border: solid 1px purple !important;
+}
+
+.event-internal {
+    background-color: gray !important;
+    border: solid 1px purple !important;
+}
+
+/*headline tool start*/
+
+#googleTitle {
+    color:#1A0DAB;
+    font-size: 18px !important;
+    font-family: arial, sans-serif !important;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 512px;
+    text-overflow: ellipsis;
+    display:inline-block;
+}
+#googleSnippet {
+    font-family: arial, sans-serif !important;
+    color:#545454;
+    line-height: 1.4;
+    font-size:13px;
+    display:inline;
+}
+#urlOut {
+    color:#006621;
+    font-style:normal;
+    font-size:13px;
+    font-family: arial, sans-serif !important;
+    line-height: 16px;
+}
+
+#fbTitle {
+    
+    font-size: 18px !important;
+    font-weight: 500 !important;
+    line-height: 22px !important;
+    color: #000 !important;
+    margin-bottom: 4px;
+    max-height: 44px;
+    max-width: 360px;
+    overflow: hidden;
+    width: 360px;
+    word-wrap: break-word;
+}
+#facebook {
+    height: 162px;
+    width:618px;
+    font-family: Georgia,'lucida grande', tahoma, verdana, arial, sans-serif !important;
+    line-height: 1.28;
+    border: 3px solid #efefef;
+    padding: 2px;
+}
+#fbSnippet {
+    line-height: 16px;
+    height:42px;
+    display:block;
+    max-height: 100px;
+    width:440px;
+    word-wrap:break-word;
+    font-size: 12px;
+}
+#fbUrl {
+    color:#adb2bb;
+    font-size: 11px;
+    bottom:0;
+    text-transform: uppercase;
+    bottom:0;
+    font-weight: normal;
+    position: absolute;
+}
+#fbImg {
+    width:154px;
+    height: 154px;
+    background-color: black;
+    float:left;
+    display:block;
+}
+#fbContent {
+    display: block;
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    font-size: 12px;
+    height: 134px;
+    padding: 10px 12px 0;
+    position: relative;
+}
+#google {
+    border: 3px solid #efefef;
+    width:520px;
+    padding: 2px;
+}
+#twitter {
+    border: 3px solid #efefef;
+    width:510px;
+    height:65px;
+    padding:4px;
+}
+#twitterTitle {
+    overflow: hidden;
+    white-space: pre-wrap;
+    font-size: 14px;
+    word-wrap: break-word;
+    display:block;
+}
+#twitterCounter {
+    /*float:right;*/
+    font-size: 18px;
+    font-weight: bold;
+    display:block;
+    position:relative;
+}
+
+/*headline tool end*/
+
+/* mojolicious form validation */
+label.field-with-error { color: #dd7e5e }
+input.field-with-error { background-color: #fd9e7e }
+select.field-with-error { background-color: #fd9e7e }
+
+/* zeitgeist styles */
+#zg-container {
+    padding-top: 10px;
+}
+.tile {
+    background-color: #f1f1f1;
+    border: 1px solid #e0e0e0;
+    width:30%;
+    float:left;
+}
+.tile .panel-heading {
+    cursor: move;
+    background-color: #E90E0E;
+    font-weight: bold;
+    color: white;
+}
+.tile .panel-heading a {
+    color:white;
+    text-decoration: none;
+    font-weight: normal;
+}
+.zg-time {
+    float:right;
+    cursor: help;
+}
+ol.zg-list {
+    padding-left:10px;
+    /*list-style-type:none; */
+    font-size: 12px;
+}
+
+.grabme {
+    /*color:white;*/
+    cursor:grab !important;
+    cursor: -webkit-grab; /* for chrome */
+}
+.grabbed {
+    color:white;
+    cursor:grabbing !important;
+    cursor: -webkit-grabbing; /* for chrome */
+}
+
+/*table {
+    table-layout: fixed;
+    word-wrap: break-word;
+}*/
