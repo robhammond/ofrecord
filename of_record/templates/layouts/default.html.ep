@@ -10,6 +10,11 @@
 		<script src="/js/jquery.min.js"></script>
 		<script src="/js/bootstrap.min.js"></script>
 		<script src="/js/bootstrap-datetimepicker.min.js"></script>
+		<style type="text/css">
+body { 
+    padding-top: 65px; 
+}
+		</style>
 	</head>
 	<body>
 		<nav class="navbar navbar-default navbar-fixed-top" id="nav" role="navigation">

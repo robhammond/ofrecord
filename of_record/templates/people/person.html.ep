@@ -1,6 +1,6 @@
 % layout 'default';
-% title 'Of Record';
-<h2>person</h2>
+% title $res->{'_source'}->{'full_name'} . ' Profile | Of Record';
+<h2><%= $res->{'_source'}->{'full_name'} %></h2>
 <pre>
-%== dumper $results
+%== dumper $res
 </pre>

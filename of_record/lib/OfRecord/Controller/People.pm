@@ -39,13 +39,21 @@ sub person {
 	
 	my $results = $es->get(
         index => 'ofrecord',
-        type => 'person',
+        type => 'member',
         id => md5_hex($id),
     );
-    $log->info(p $results);
+    # $log->info(p $results);
+	my $p_id = $results->{'_source'}->{'person_id'};
+	# say $p_id;
+
+    $results = $es->get(
+        index => 'ofrecord',
+        type => 'person',
+        id => md5_hex($p_id),
+    );
 
 	$self->render( 
-		# results => $results,
+		res => $results,
 	);
 }
 
