@@ -5,6 +5,7 @@ use Modern::Perl;
 use File::Slurp;
 use Mojo::DOM;
 use Search::Elasticsearch;
+use DateTime::Format::ISO8601;
 use Data::Dumper;
 
 my $es = Search::Elasticsearch->new(
@@ -16,7 +17,7 @@ my $es = Search::Elasticsearch->new(
 opendir my $dir, "./scrapedxml/debates/" or die "Cannot open directory: $!";
 my @files = readdir $dir;
 closedir $dir;
-
+# my @files = ("debates2011-04-28a.xml");
 for my $file (@files) {
 	next unless $file =~ m{\.xml};
 	next unless $file =~ m{debates(19[89]|2)};
@@ -24,6 +25,7 @@ for my $file (@files) {
 	my ($date) = $file =~ m{debates([0-9]+-[0-9]+-[0-9]+)};# debates2011-04-27f.xml
 
 	my $xml = read_file("./scrapedxml/debates/" . $file);
+	say $file;
 
 	my $dom = Mojo::DOM->new($xml);
 	my $i = 0;
@@ -52,10 +54,10 @@ for my $file (@files) {
 			# skip commentary, ie 'rose'
 			# next if (($p->{'class'}) && ($p->{'class'} eq 'italic'));
 			my $pid = $p->{'pid'};
-			# my $text = $p->all_text;
+			my $par = $p->all_text;
 			# say $speaker_name;
 			# say $p->all_text;
-			push @text, $p->all_text;
+			push @text, $par;
 			$html .= "$p ";
 			
 			if ($p->at('phrase.honfriend')) {
@@ -67,23 +69,38 @@ for my $file (@files) {
 			my $wc = $words =~ s/((^|\s)\S)/$1/g;
 			$word_count += $wc;
 		}
-		say "$date $speaker_name";
+
+		my $all_text = join("\n\n", @text);
+
+		my $data = {
+			speech_id => $speech_id,
+			speaker_id => $speaker_id,
+			speaker_name => $speaker_name,
+			col_num => $col_num,
+			url => $url,
+			date => $date,
+			word_count => $word_count,
+			speech => $all_text,
+			hon_friends => \@hon_friends,
+		};
+
+		if ($time) {
+			$time =~ s!\d(\d\d)!$1!;
+			$time = $date . 'T' . $time . 'Z';
+			eval {
+			    my $t_date = DateTime::Format::ISO8601->parse_datetime($time);
+			};
+			if ( $@ ) {
+				print "ERROR: date not valid"
+			} else {
+				$data->{'datetime'} = $time;
+			}
+		}
 		
 		$es->index(
 			index => 'ofrecord',
 			type => 'hansard',
-			body => {
-				speech_id => $speech_id,
-				speaker_id => $speaker_id,
-				speaker_name => $speaker_name,
-				col_num => $col_num,
-				time => $time,
-				url => $url,
-				date => $date,
-				word_count => $word_count,
-				speech => \@text,
-				hon_friends => \@hon_friends,
-			}
+			body => $data,
 		);
 	}
 

@@ -68,6 +68,9 @@ my $of_record = $es->indices->put_mapping(
 	            },
 	            date => {
 	            	type => "date",
+	            },
+	            datetime => {
+	            	type => "date",
 	            }
 	        }
 		},
