@@ -6,6 +6,15 @@ use Search::Elasticsearch;
 sub startup {
 	my $self = shift;
 
+	# helper to add commas to numbers
+	$self->helper('thousandify' => sub {
+		my $self = shift;
+		my $number = shift;
+		return unless $number;
+		$number =~ s/(\d{1,3}?)(?=(\d{3})+$)/$1,/g;
+		return "$number";
+	});
+
 	# elasticsearch
 	$self->attr( es => sub { 
 		Search::Elasticsearch->new(
@@ -24,6 +33,9 @@ sub startup {
 
 	$r->get('/people')->to('people#home');
 	$r->get('/person')->to('people#person');
+	$r->get('/person/words')->to('people#words');
+
+	$r->get('/trends')->to('trends#home');
 }
 
 1;

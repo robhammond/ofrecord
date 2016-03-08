@@ -1,17 +1,26 @@
 % layout 'default';
 % title 'Of Record';
 <h2>Search</h2>
-<form action="/search">
-	<input type="text" name="q" value="<%= param 'q' %>">
-	<button class="btn btn-default">search</button>
+<form action="/search" class="form-inline" role="form">
+	<div class="form-group col-sm-8">
+		<input type="text" name="q" class="form-control" value="<%= param 'q' %>" required="required">
+	</div>
+	<button type="submit" class="btn btn-primary">Search</button>
 </form>
 <div class="row">
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 		<ul>
 			% for my $res (@$results) {
+				% my $speech_id = $res->{'_source'}->{'speech_id'};
+				% $speech_id =~ s!^.*?/([^/]+)$!$1!;
 				<li>
 					<p><a href="/person?id=<%= $res->{'_source'}->{'speaker_id'} %>"><%= $res->{'_source'}->{'speaker_name'} %></a> (<%= $res->{'_source'}->{'date'} %>)</p>
 					<p><%== $res->{'highlight'}->{'speech'}->[0] %></p>
+					<p><small><a style="color:green;" href="http://www.theyworkforyou.com/debates/?id=<%= $speech_id %>" target="_blank">TWFY speech link</a> <i class="fa fa-external-link"></i>
+					% if ($res->{'_source'}->{'url'}) {
+						| <a style="color:green;" href="<%= $res->{'_source'}->{'url'} %>" target="_blank">Parliament speech link</a> <i class="fa fa-external-link"></i>
+					% }
+					</small></p>
 				</li>
 			% }
 		</ul>

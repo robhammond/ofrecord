@@ -1,6 +1,31 @@
 % layout 'default';
 % title $res->{'_source'}->{'full_name'} . ' Profile | Of Record';
 <h2><%= $res->{'_source'}->{'full_name'} %></h2>
+<p><a href="/person/words?id=<%= param 'id' %>">Words</a></p>
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<h4>Identifiers</h4>
+		<ul>
+			% for my $i (@{$res->{'_source'}->{'identifiers'}}) {
+				<li><b><%= $i->{'scheme'} %></b> - <%= $i->{'identifier'} %></li>
+			% }
+		</ul>
+		<h4>Other Names</h4>
+		<ul>
+			% for my $other (@{$res->{'_source'}->{'other_names'}}) {
+				% while (my ($k, $v) = each %$other) {
+					<li><b><%= $k %></b> - <%= $v %></li>
+				% }
+			% }
+		</ul>
+		<h4>Shortcuts</h4>
+		<ul>
+			% while (my ($k, $v) = each %{$res->{'_source'}->{'shortcuts'}}) {
+				<li><b><%= $k %></b> - <%= $v %></li>
+			% }
+		</ul>
+	</div>
+</div>
 <pre>
 %== dumper $res
 </pre>

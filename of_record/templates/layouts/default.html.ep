@@ -30,6 +30,8 @@ body {
 				<div class="navbar-collapse collapse">
 					<ul class="nav navbar-nav">
 						<li><a href="/"><i class="glyphicon glyphicon-home"></i> Home</a></li>
+						<li><a href="/trends"><i class="glyphicon glyphicon-stats"></i> Trends</a></li>
+						<li><a href="/people"><i class="glyphicon glyphicon-user"></i> People</a></li>
 					</ul>
 				</div><!--/.nav-collapse -->
 			</div>

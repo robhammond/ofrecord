@@ -1,0 +1,6 @@
+% layout 'default';
+% title $person->{'_source'}->{'full_name'} . ' says... | Of Record';
+<h2><%= $person->{'_source'}->{'full_name'} %></h2>
+<pre>
+%== dumper $res
+</pre>

@@ -57,5 +57,56 @@ sub person {
 	);
 }
 
+sub words {
+    my $self = shift;
+    return $self->render() unless $self->param('id');
+    my $es = $self->es;
+
+    my $id = $self->param('id');
+
+    my $results = $es->get(
+        index => 'ofrecord',
+        type => 'member',
+        id => md5_hex($id),
+    );
+    # $log->info(p $results);
+    my $p_id = $results->{'_source'}->{'person_id'};
+    # say $p_id;
+
+    my $person = $es->get(
+        index => 'ofrecord',
+        type => 'person',
+        id => md5_hex($p_id),
+    );
+    
+    $results = $es->search(
+        index => 'ofrecord',
+        type => 'hansard',
+        body => {
+            query => {
+                match => {
+                    speaker_id => $id,
+                }
+            },
+            size => 0,
+            aggs => {
+                words => {
+                    significant_terms => {
+                        field => 'speech',
+                        # size => 500,
+                    }
+                },
+                
+            }
+        }
+    );
+    # $log->info(p $results);
+
+    $self->render( 
+        res => $results,
+        person => $person,
+    );
+}
+
 
 1;

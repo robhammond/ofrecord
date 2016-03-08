@@ -1,0 +1,137 @@
+% layout 'default';
+% title 'Of Record';
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<h2>Trends</h2>
+<div class="row">
+    <div class="col-sm-12">
+        <form class="form-inline" role="form">
+            <input type="hidden" name="id" value="<%= param 'id' %>">
+            <div class="col-sm-1 input-group datetime date">
+                <input type="date" name="from" data-format="YYYY-MM-DD" class="form-control input-sm" value="<%= $from %>">
+                <span class="input-group-addon">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                </span>
+            </div>
+            <div class="col-sm-1 input-group datetime date">
+                <input type="date" name="to" data-format="YYYY-MM-DD" class="form-control input-sm" value="<%= $to %>">
+                <span class="input-group-addon">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                </span>
+            </div>
+            <div class="form-group">
+                <select name="interval" class="form-control input-sm">
+                    <option<% if (param('interval') eq 'hour') { %> selected<% } %>>hour</option>
+                    <option<% if (param('interval') eq 'day' || !param('interval')) { %> selected<% } %>>day</option>
+                    <option<% if (param('interval') eq 'week') { %> selected<% } %>>week</option>
+                    <option<% if (param('interval') eq 'month') { %> selected<% } %>>month</option>
+                    <option<% if (param('interval') eq 'year') { %> selected<% } %>>year</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="text" name="q" placeholder="Search" value="<%= param 'q' %>" class="form-control input-sm">
+            </div>
+            <div class="form-group">
+                <select name="field" class="form-control input-sm">
+                    <option disabled>Select a field</option>
+                    <option value="speech"<% if (param('field') eq 'speech') { %> selected<% } %>>Speech text</option>
+                    <option value="speaker_name"<% if (param('field') eq 'speaker_name') { %> selected<% } %>>Speaker Name</option>
+                    <option value="person_id"<% if (param('field') eq 'person_id') { %> selected<% } %>>Person ID</option>
+                </select>
+            </div>
+            <button class="btn btn-primary btn-sm" type="submit">Filter</button>
+            <a class="btn btn-default btn-sm" href="?id=<%= param 'id' %>">Clear</a>
+        </form>
+    </div>
+</div>
+<!--div class="row">
+    <div class="col-md-offset-8 col-md-4">
+        <form class="form-inline" role="form">
+            <input type="hidden" name="export" value="1">
+            <input type="hidden" name="q" value="<%= param 'q' %>">
+            <input type="hidden" name="id" value="<%= param 'id' %>">
+            <input type="hidden" name="interval" value="<%= param('interval') || 'day' %>">
+            <input type="hidden" name="from" value="<%= $from %>">
+            <input type="hidden" name="to" value="<%= $to %>">
+            <button type="submit" class="btn btn-success" style="float:right;"><i class="fa fa-download"></i> Export</button>
+        </form>
+    </div>
+</div-->
+<hr>
+<div id="container" style="width:100%; height:400px;"></div>
+
+<table class="table table-bordered table-hover" id="articles">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Speeches</th>
+            <th>Avg. Word Count</th>
+        </tr>
+    </thead>
+    <tbody>
+        % for my $a (@{$res->{'aggregations'}->{'speeches_over_time'}->{'buckets'}}) {
+            <tr>
+                <td><%= $a->{'key_as_string'} %></td>
+                <td align="right"><%= thousandify($a->{'doc_count'}) %></td>
+                <td align="right"><%= sprintf("%0.2f", $a->{'avg_words'}->{'value'}) %></td>
+            </tr>
+        % }
+    </tbody>
+</table>
+<script>
+$(function () { 
+    $('#container').highcharts({
+        chart: {
+            type: 'line'
+        },
+        title: {
+            text: 'Speeches'
+        },
+        xAxis: {
+            // categories
+            type: 'datetime',
+            dateTimeLabelFormats: {
+                month: '%b %Y',
+                // year: '%b'
+            },
+        },
+        yAxis: {
+            title: {
+                text: ''
+            },
+            min: 0
+        },
+        series: [{
+            name: 'Speeches',
+            data : [
+                % for my $a (@{$res->{'aggregations'}->{'speeches_over_time'}->{'buckets'}}) {
+                    % my ($y, $m, $d, $h) = $a->{'key_as_string'} =~ m{^(\d\d\d\d)-(\d\d)-(\d\d)(?:T(\d\d))?};
+                    % if ($h) {
+                        [Date.UTC(<%= $y %>, <%= $m -1 %>, <%= $d %>, <%= $h %>), <%= $a->{'doc_count'} %>],
+                    % } else {
+                        [Date.UTC(<%= $y %>, <%= $m -1 %>, <%= $d %>), <%= $a->{'doc_count'} %>],
+                    % }
+                % }
+            ]
+        }]
+    });
+});
+
+$(document).ready( function () {
+    $('#articles').DataTable({
+        dom: 'T<"clear">rt',
+        tableTools: {
+            "sSwfPath": "/datatables/extensions/TableTools/swf/copy_csv_xls_pdf.swf"
+        },
+        ordering : false,
+        paging : false,
+        info : false,
+        autoWidth : false
+    });
+} );
+
+$(function() {
+    $('.datetime').datetimepicker({
+        pickTime: false
+    });
+});
+</script>

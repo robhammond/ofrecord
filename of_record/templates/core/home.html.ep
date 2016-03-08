@@ -1,9 +1,12 @@
 % layout 'default';
 % title 'Of Record';
 <h2>Of Record</h2>
-<form action="/search">
-	<input type="text" name="q">
-	<button class="btn btn-default">search</button>
+
+<form action="/search" class="form-inline" role="form">
+	<div class="form-group col-sm-8">
+		<input type="text" name="q" class="form-control" value="" required="required">
+	</div>
+	<button type="submit" class="btn btn-primary">Search</button>
 </form>
 <pre>
 %== dumper $mps
