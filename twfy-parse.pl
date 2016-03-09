@@ -81,6 +81,7 @@ for my $file (@files) {
 			index => 'ofrecord',
 			type => 'member',
 			id => md5_hex($speaker_id),
+			ignore => 404
 		);
 
 		my $data = {

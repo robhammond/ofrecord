@@ -14,7 +14,7 @@
 				% my $speech_id = $res->{'_source'}->{'speech_id'};
 				% $speech_id =~ s!^.*?/([^/]+)$!$1!;
 				<li>
-					<p><a href="/person?id=<%= $res->{'_source'}->{'speaker_id'} %>"><%= $res->{'_source'}->{'speaker_name'} %></a> (<%= $res->{'_source'}->{'date'} %>)</p>
+					<p><a href="/person?id=<%= $res->{'_source'}->{'member_id'} %>"><%= $res->{'_source'}->{'speaker_name'} %></a> (<%= $res->{'_source'}->{'date'} %>)</p>
 					<p><%== $res->{'highlight'}->{'speech'}->[0] %></p>
 					<p><small><a style="color:green;" href="http://www.theyworkforyou.com/debates/?id=<%= $speech_id %>" target="_blank">TWFY speech link</a> <i class="fa fa-external-link"></i>
 					% if ($res->{'_source'}->{'url'}) {
