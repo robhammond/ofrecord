@@ -45,6 +45,8 @@ for my $person (@{$json->{'persons'}}) {
 	
 	# say Dumper $person;
 	say $id . ' ' . $full_name;
+	$person->{'person_id'} = $person->{'id'};
+	delete $person->{'id'};
 	
 	$es->index(
 		index => 'ofrecord',

@@ -108,5 +108,37 @@ sub words {
     );
 }
 
+sub verbosity {
+    my $self = shift;
+    my $es = $self->es;
+    
+    my $results = $es->search(
+        index => 'ofrecord',
+        type => 'hansard',
+        body => {
+            # query => {
+            #     match => {
+            #         speaker_id => $id,
+            #     }
+            # },
+            size => 0,
+            aggs => {
+                verbosity => {
+                    terms => {
+                        field => 'speaker_id',
+                        # size => 500,
+                    }
+                },
+                
+            }
+        }
+    );
+    $log->info(p $results);
+
+    $self->render( 
+        res => $results,
+    );
+}
+
 
 1;

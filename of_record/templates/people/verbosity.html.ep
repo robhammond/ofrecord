@@ -1,0 +1,5 @@
+% layout 'default';
+% title 'verbosity | Of Record';
+<pre>
+%== dumper $res
+</pre>

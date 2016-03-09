@@ -66,6 +66,10 @@ my $of_record = $es->indices->put_mapping(
 						},
 					}
 	            },
+	            speaker_id => {
+	            	type => "string",
+	            	index => "not_analyzed"
+            	},
 	            date => {
 	            	type => "date",
 	            },
@@ -96,6 +100,14 @@ $result = $es->indices->put_mapping(
 							index => "not_analyzed",
 						},
 					}
+	            },
+	            person_id => {
+	            	type => "string",
+	            	index => "not_analyzed"
+	            },
+	            twitter_username => {
+	            	type => "string",
+	            	index => "not_analyzed"
 	            },
 	        }
 		},
