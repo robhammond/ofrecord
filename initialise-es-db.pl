@@ -109,6 +109,10 @@ $result = $es->indices->put_mapping(
 	            	type => "string",
 	            	index => "not_analyzed"
 	            },
+	            wikipedia_url => {
+	            	type => "string",
+	            	index => "not_analyzed"
+	            },
 	        }
 		},
     }
@@ -134,7 +138,7 @@ $result = $es->indices->put_mapping(
 	            	type => "string",
 	            	index => "not_analyzed"
 	            },
-	            id => {
+	            member_id => {
 	            	type => "string",
 	            	index => "not_analyzed"
 	            },
