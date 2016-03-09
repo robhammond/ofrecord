@@ -24,6 +24,8 @@
 				<li><b><%= $k %></b> - <%= $v %></li>
 			% }
 		</ul>
+		<p><b>Twitter:</b> <a href="https://twitter.com/<%= $res->{'_source'}->{'twitter_username'} %>"><%= $res->{'_source'}->{'twitter_username'} %></a></p>
+		<p><b>Wikipedia:</b> <a href="<%= $res->{'_source'}->{'wikipedia_url'} %>"><%= $res->{'_source'}->{'wikipedia_url'} %></a></p>
 	</div>
 </div>
 <pre>

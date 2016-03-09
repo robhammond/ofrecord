@@ -85,7 +85,7 @@ sub words {
         body => {
             query => {
                 match => {
-                    speaker_id => $id,
+                    member_id => $id,
                 }
             },
             size => 0,
