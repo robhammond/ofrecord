@@ -7,6 +7,7 @@ use File::Slurp;
 use Mojo::DOM;
 use Search::Elasticsearch;
 use DateTime::Format::ISO8601;
+use Lingua::StanfordCoreNLP;
 use Data::Dumper;
 
 my $es = Search::Elasticsearch->new(

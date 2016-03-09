@@ -23,3 +23,16 @@ Then run `people-parse.pl` to parse the 'people.json' file from TheyWorkForYou
 Then run `people-add-twitter-profiles.pl` to parse the 'twitter.xml' file from TheyWorkForYou
 
 Then run `people-add-wikipedia-profiles.pl` to parse the 'wikipedia-commons.xml' file from TheyWorkForYou
+
+# More advanced stuff #
+Running [Stanford's NLP library](http://stanfordnlp.github.io/CoreNLP/index.html#download) in Perl seems a bit of a pain.
+
+Install Inline::Java from source, with the command:
+
+```
+perl Makefile.PL J2SDK=/System/Library/Frameworks/JavaVM.framework/Versions/Current
+```
+
+At least that path works on my Mac.
+
+Then install Lingua::StanfordCoreNLP
