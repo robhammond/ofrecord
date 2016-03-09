@@ -2,6 +2,7 @@
 use strict;
 use warnings;
 use Modern::Perl;
+use Digest::MD5 qw(md5_hex);
 use File::Slurp;
 use Mojo::DOM;
 use Search::Elasticsearch;
@@ -20,7 +21,8 @@ closedir $dir;
 # my @files = ("debates2011-04-28a.xml");
 for my $file (@files) {
 	next unless $file =~ m{\.xml};
-	next unless $file =~ m{debates(19[89]|2)};
+	# next unless $file =~ m{debates(19[89]|2)};
+	next unless $file =~ m{debates2015};
 	# extract date
 	my ($date) = $file =~ m{debates([0-9]+-[0-9]+-[0-9]+)};# debates2011-04-27f.xml
 
@@ -71,10 +73,20 @@ for my $file (@files) {
 		}
 
 		my $all_text = join("\n\n", @text);
+		# generate some fun meta data about the speech
+		# run thru nlp - entities mentioned, sentiment
+
+		# get speaker's person ID
+		my $person = $es->get(
+			index => 'ofrecord',
+			type => 'member',
+			id => md5_hex($speaker_id),
+		);
 
 		my $data = {
 			speech_id => $speech_id,
-			speaker_id => $speaker_id,
+			member_id => $speaker_id,
+			person_id => $person->{'_source'}->{'person_id'},
 			speaker_name => $speaker_name,
 			col_num => $col_num,
 			url => $url,
@@ -84,14 +96,17 @@ for my $file (@files) {
 			hon_friends => \@hon_friends,
 		};
 
+		# check if there's a time
 		if ($time) {
 			$time =~ s!\d(\d\d)!$1!;
 			$time = $date . 'T' . $time . 'Z';
+			# check if the time's formatted correctly
 			eval {
 			    my $t_date = DateTime::Format::ISO8601->parse_datetime($time);
 			};
+			# if there's an error
 			if ( $@ ) {
-				print "ERROR: date not valid"
+				say "ERROR: date $time not valid";
 			} else {
 				$data->{'datetime'} = $time;
 			}

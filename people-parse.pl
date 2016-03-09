@@ -13,7 +13,7 @@ my $es = Search::Elasticsearch->new(
 );
 
 # open file
-my $file = 'people.json';
+my $file = 'people-mod.json';
 my $fh = read_file($file);
 # decode JSON file
 my $json = decode_json($fh);

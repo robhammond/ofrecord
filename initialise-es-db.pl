@@ -52,13 +52,16 @@ my $of_record = $es->indices->put_mapping(
     body  => {
     	hansard => {
 	        properties => {
+	        	speech => {
+	        		type => "string",
+					index => "analyzed",
+					analyzer => "english", # removes stopwords etc
+        		},
 	            speaker_name => {
 	            	type => "multi_field",
 					fields => {
 						speaker_name => {
 							type => "string",
-							index => "analyzed",
-							analyzer => "english",
 						},
 						raw => {
 							type => "string",
@@ -66,7 +69,11 @@ my $of_record = $es->indices->put_mapping(
 						},
 					}
 	            },
-	            speaker_id => {
+	            member_id => {
+	            	type => "string",
+	            	index => "not_analyzed"
+            	},
+            	person_id => {
 	            	type => "string",
 	            	index => "not_analyzed"
             	},
@@ -92,8 +99,6 @@ $result = $es->indices->put_mapping(
 					fields => {
 						full_name => {
 							type => "string",
-							index => "analyzed",
-							analyzer => "english",
 						},
 						raw => {
 							type => "string",
