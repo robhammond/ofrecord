@@ -22,11 +22,21 @@ my $res = $es->search(
 	type => 'hansard',
 	body => {
 		query => {
-			match_all => {}
+			filtered => {
+				filter => {
+					range => {
+						word_count => {
+							gte => 100
+						}
+					}
+				}
+			}
 		}
 	}
 );
 
+# say $res->{'hits'}->{'hits'}->[0]->{'_source'}->{'speech'};
+# die;
 
 
 # Create a new NLP pipeline (make corefs bidirectional)
@@ -36,7 +46,7 @@ my $pipeline = new Lingua::StanfordCoreNLP::Pipeline(1);
 my $props = $pipeline->getProperties();
  
 # These are the default annotator properties:
-$props->put('annotators', 'tokenize, ssplit, pos, lemma, ner, parse, dcoref');
+$props->put('annotators', 'tokenize, ssplit, pos, lemma, ner, parse');
  
 # Update properties:
 $pipeline->setProperties($props);
@@ -44,7 +54,7 @@ $pipeline->setProperties($props);
 # Process text
 # (Will output lots of debug info from the Java classes to STDERR.)
 my $result = $pipeline->process(
-   'Jane looked at the IBM computer. She turned it off.'
+   $res->{'hits'}->{'hits'}->[1]->{'_source'}->{'speech'}
 );
  
 my @seen_corefs;
@@ -56,37 +66,38 @@ for my $sentence (@{$result->toArray}) {
  
    print "Tagged text:\n";
    for my $token (@{$sentence->getTokens->toArray}) {
-      printf "\t%s/%s/%s [%s]\n",
-             $token->getWord,
-             $token->getPOSTag,
-             $token->getNERTag,
-             $token->getLemma;
+      # printf "\t%s/%s/%s [%s]\n",
+      #        $token->getWord,
+      #        $token->getPOSTag,
+      #        $token->getNERTag,
+      #        $token->getLemma;
+      say $token->getWord .' - '. $token->getNERTag;
    }
  
-   print "Dependencies:\n";
-   for my $dep (@{$sentence->getDependencies->toArray}) {
-      printf "\t%s(%s-%d, %s-%d) [%s]\n",
-             $dep->getRelation,
-             $dep->getGovernor->getWord,
-             $dep->getGovernorIndex,
-             $dep->getDependent->getWord,
-             $dep->getDependentIndex,
-             $dep->getLongRelation;
-   }
+   # print "Dependencies:\n";
+   # for my $dep (@{$sentence->getDependencies->toArray}) {
+   #    printf "\t%s(%s-%d, %s-%d) [%s]\n",
+   #           $dep->getRelation,
+   #           $dep->getGovernor->getWord,
+   #           $dep->getGovernorIndex,
+   #           $dep->getDependent->getWord,
+   #           $dep->getDependentIndex,
+   #           $dep->getLongRelation;
+   # }
  
-   print "Coreferences:\n";
-   for my $coref (@{$sentence->getCoreferences->toArray}) {
-      printf "\t%s [%d, %d] <=> %s [%d, %d]\n",
-             $coref->getSourceToken->getWord,
-             $coref->getSourceSentence,
-             $coref->getSourceHead,
-             $coref->getTargetToken->getWord,
-             $coref->getTargetSentence,
-             $coref->getTargetHead;
+   # print "Coreferences:\n";
+   # for my $coref (@{$sentence->getCoreferences->toArray}) {
+   #    printf "\t%s [%d, %d] <=> %s [%d, %d]\n",
+   #           $coref->getSourceToken->getWord,
+   #           $coref->getSourceSentence,
+   #           $coref->getSourceHead,
+   #           $coref->getTargetToken->getWord,
+   #           $coref->getTargetSentence,
+   #           $coref->getTargetHead;
  
-      print "\t\t(Duplicate)\n"
-         if(grep { $_->equals($coref) } @seen_corefs);
+   #    print "\t\t(Duplicate)\n"
+   #       if(grep { $_->equals($coref) } @seen_corefs);
  
-      push @seen_corefs, $coref;
-   }
+   #    push @seen_corefs, $coref;
+   # }
 }
