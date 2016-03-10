@@ -26,7 +26,7 @@ my $res = $es->search(
 				filter => {
 					range => {
 						word_count => {
-							gte => 100
+							gte => 500
 						}
 					}
 				}

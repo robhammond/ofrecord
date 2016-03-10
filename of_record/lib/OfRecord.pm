@@ -32,9 +32,12 @@ sub startup {
 	$r->get('/search')->to('search#home');
 
 	$r->get('/people')->to('people#home');
+	$r->get('/people/search')->to('people#search');
 	$r->get('/people/verbosity')->to('people#verbosity');
 	$r->get('/person')->to('people#person');
 	$r->get('/person/words')->to('people#words');
+	$r->get('/person/edit')->to('people#edit_person');
+	$r->post('/person/edit')->to('people#save_person');
 
 	$r->get('/trends')->to('trends#home');
 }

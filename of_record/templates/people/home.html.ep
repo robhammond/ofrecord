@@ -1,7 +1,12 @@
 % layout 'default';
 % title 'Of Record';
-<h2>people</h2>
-
-<pre>
+<h2>People</h2>
+<form action="/people/search" class="form-inline" role="form">
+	<div class="form-group col-sm-8">
+		<input type="text" name="q" class="form-control" value="">
+	</div>
+	<button type="submit" class="btn btn-primary">Search People</button>
+</form>
+<!--pre>
 %== dumper $results
-</pre>
+</pre-->

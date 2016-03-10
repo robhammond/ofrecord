@@ -22,7 +22,7 @@ closedir $dir;
 for my $file (@files) {
 	next unless $file =~ m{\.xml};
 	# next unless $file =~ m{debates(19[89]|2)};
-	next unless $file =~ m{debates2015};
+	next unless $file =~ m{debates201};
 	# extract date
 	my ($date) = $file =~ m{debates([0-9]+-[0-9]+-[0-9]+)};# debates2011-04-27f.xml
 

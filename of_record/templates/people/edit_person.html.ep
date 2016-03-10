@@ -1,0 +1,30 @@
+% layout 'default';
+% title $res->{'_source'}->{'full_name'} . ' Profile | Of Record';
+<h2><%= $res->{'_source'}->{'full_name'} %></h2>
+
+<form method="post">
+<input type="hidden" name="id" value="<%= param 'id' %>">
+	<table class="table table-bordered table-striped">
+		<tbody>
+			<tr>
+				<th>Full Name</th>
+				<td><input type="text" name="full_name" value="<%= $res->{'_source'}->{'twitter_username'} %>"></td>
+			</tr>
+			<tr>
+				<th>Twitter</th>
+				<td><input type="text" name="twitter" value="<%= $res->{'_source'}->{'twitter_username'} %>"></td>
+			</tr>
+			<tr>
+				<th>Wikipedia</th>
+				<td><input type="text" name="wikipedia" value="<%= $res->{'_source'}->{'wikipedia_url'} %>"></td>
+			</tr>
+		</tbody>
+	</table>
+</form>
+<pre>
+%== dumper $res
+</pre>
+
+<pre>
+%== dumper $members
+</pre>

@@ -30,31 +30,135 @@ sub home {
 	);
 }
 
+sub search {
+    my $self = shift;
+    my $es = $self->es;
+    my $q = $self->param('q');
+    
+    my $results = $es->search(
+        index => 'ofrecord',
+        type => 'person',
+        body  => {
+            query => {
+                match => {
+                    full_name => $q
+                }
+            },
+        },
+        size => 10,
+        from => 0,
+    );
+    # $log->info(p $results);
+
+    my $total_results = $results->{'hits'}->{'total'};
+
+    $self->render( 
+        results => $results->{'hits'}->{'hits'},
+        total_results => $total_results,
+    );
+}
+
 sub person {
 	my $self = shift;
 	return $self->render() unless $self->param('id');
 	my $es = $self->es;
 
     my $id = $self->param('id');
-	
-	my $results = $es->get(
-        index => 'ofrecord',
-        type => 'member',
-        id => md5_hex($id),
-    );
-    # $log->info(p $results);
-	my $p_id = $results->{'_source'}->{'person_id'};
-	# say $p_id;
 
-    $results = $es->get(
+    my $results = $es->get(
         index => 'ofrecord',
         type => 'person',
-        id => md5_hex($p_id),
+        id => md5_hex($id),
+    );
+
+    my $members = $es->search(
+        index => 'ofrecord',
+        type => 'member',
+        body => {
+            query => {
+                match => {
+                    person_id => $id,
+                }
+            }
+        }
     );
 
 	$self->render( 
 		res => $results,
+        members => $members,
 	);
+}
+
+sub edit_person {
+    my $self = shift;
+    return $self->render() unless $self->param('id');
+    my $es = $self->es;
+
+    my $id = $self->param('id');
+
+    my $results = $es->get(
+        index => 'ofrecord',
+        type => 'person',
+        id => md5_hex($id),
+    );
+
+    my $members = $es->search(
+        index => 'ofrecord',
+        type => 'member',
+        body => {
+            query => {
+                match => {
+                    person_id => $id,
+                }
+            }
+        }
+    );
+
+    $self->render( 
+        res => $results,
+        members => $members,
+    );
+}
+
+sub save_person {
+    my $self = shift;
+    return $self->render() unless $self->param('id');
+    my $es = $self->es;
+
+    my $id = $self->param('id');
+
+    my $results = $es->get(
+        index => 'ofrecord',
+        type => 'person',
+        id => md5_hex($id),
+    );
+
+    my $members = $es->search(
+        index => 'ofrecord',
+        type => 'member',
+        body => {
+            query => {
+                match => {
+                    person_id => $id,
+                }
+            }
+        }
+    );
+
+    my $res = $es->update(
+        index => 'ofrecord',
+        type => 'person',
+        id => $id,
+        body => {
+            doc => {
+                twitter_username => $self->param('twitter'),
+                wikipedia_url => $self->param('wikipedia'),
+                full_name => $self->param('full_name'),
+            }
+        }
+    );
+
+    $self->redirect_to('/');
 }
 
 sub words {
@@ -64,28 +168,19 @@ sub words {
 
     my $id = $self->param('id');
 
-    my $results = $es->get(
-        index => 'ofrecord',
-        type => 'member',
-        id => md5_hex($id),
-    );
-    # $log->info(p $results);
-    my $p_id = $results->{'_source'}->{'person_id'};
-    # say $p_id;
-
     my $person = $es->get(
         index => 'ofrecord',
         type => 'person',
-        id => md5_hex($p_id),
+        id => md5_hex($id),
     );
     
-    $results = $es->search(
+    my $results = $es->search(
         index => 'ofrecord',
         type => 'hansard',
         body => {
             query => {
                 match => {
-                    member_id => $id,
+                    person_id => $id,
                 }
             },
             size => 0,
@@ -125,7 +220,7 @@ sub verbosity {
             aggs => {
                 verbosity => {
                     terms => {
-                        field => 'speaker_id',
+                        field => 'person_id',
                         # size => 500,
                     }
                 },

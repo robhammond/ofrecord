@@ -1,0 +1,23 @@
+% layout 'default';
+% title 'Of Record';
+<h2>People</h2>
+<form action="/people/search" class="form-inline" role="form">
+	<div class="form-group col-sm-8">
+		<input type="text" name="q" class="form-control" value="<%= param 'q' %>">
+	</div>
+	<button type="submit" class="btn btn-primary">Search People</button>
+</form>
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<ul>
+			% for my $res (@$results) {
+				<li>
+					<p><a href="/person?id=<%= $res->{'_source'}->{'person_id'} %>"><%= $res->{'_source'}->{'full_name'} %></a></p>
+				</li>
+			% }
+		</ul>
+	</div>
+</div>
+<pre>
+%== dumper $results
+</pre>

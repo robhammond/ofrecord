@@ -31,3 +31,7 @@
 <pre>
 %== dumper $res
 </pre>
+
+<pre>
+%== dumper $members
+</pre>
