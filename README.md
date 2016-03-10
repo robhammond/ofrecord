@@ -36,3 +36,8 @@ perl Makefile.PL J2SDK=/System/Library/Frameworks/JavaVM.framework/Versions/Curr
 At least that path works on my Mac.
 
 Then install Lingua::StanfordCoreNLP
+
+Other interesting modules:
+
+* https://metacpan.org/pod/Lingua::EN::Bigram
+* https://metacpan.org/search?q=lingua+en&search_type=modules
