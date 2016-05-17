@@ -54,7 +54,8 @@ $pipeline->setProperties($props);
 # Process text
 # (Will output lots of debug info from the Java classes to STDERR.)
 my $result = $pipeline->process(
-   $res->{'hits'}->{'hits'}->[1]->{'_source'}->{'speech'}
+   # $res->{'hits'}->{'hits'}->[1]->{'_source'}->{'speech'}
+   "Kanye West went to IKEA and got even more 'inspiration' after wife and muse Kim Kardashian's naked pictures"
 );
  
 my @seen_corefs;
@@ -66,12 +67,12 @@ for my $sentence (@{$result->toArray}) {
  
    print "Tagged text:\n";
    for my $token (@{$sentence->getTokens->toArray}) {
-      # printf "\t%s/%s/%s [%s]\n",
-      #        $token->getWord,
-      #        $token->getPOSTag,
-      #        $token->getNERTag,
-      #        $token->getLemma;
-      say $token->getWord .' - '. $token->getNERTag;
+      printf "\t%s/%s/%s [%s]\n",
+             $token->getWord,
+             $token->getPOSTag,
+             $token->getNERTag,
+             $token->getLemma;
+      # say $token->getWord .' - '. $token->getNERTag;
    }
  
    # print "Dependencies:\n";

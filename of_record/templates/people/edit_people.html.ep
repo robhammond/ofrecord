@@ -1,0 +1,27 @@
+% layout 'default';
+% title 'People';
+<h2>Edit People</h2>
+
+<table class="table table-bordered table-hover">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Twitter</th>
+			<th>Wikipedia</th>
+			<th>Wikidata ID</th>
+			<th>&nbsp;</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+	</tbody>
+</table>
+<pre>
+%== dumper $res
+</pre>

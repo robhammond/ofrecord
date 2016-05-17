@@ -89,6 +89,26 @@ sub person {
 	);
 }
 
+sub edit_people {
+    my $self = shift;
+    
+    my $es = $self->es;
+
+    my $results = $es->search(
+        index => 'ofrecord',
+        type => 'person',
+        body => {
+            query => {
+                match_all => {}
+            }
+        }
+    );
+
+    $self->render( 
+        res => $results,
+    );
+}
+
 sub edit_person {
     my $self = shift;
     return $self->render() unless $self->param('id');

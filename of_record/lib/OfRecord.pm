@@ -32,6 +32,7 @@ sub startup {
 	$r->get('/search')->to('search#home');
 
 	$r->get('/people')->to('people#home');
+	$r->get('/people/edit')->to('people#edit_people');
 	$r->get('/people/search')->to('people#search');
 	$r->get('/people/verbosity')->to('people#verbosity');
 	$r->get('/person')->to('people#person');

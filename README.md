@@ -13,12 +13,21 @@ Install Perl on:
 
 Install Mojolicious: http://mojolicious.org
 
+# Get the Hansard files #
+From [Theyworkforyou](http://parser.theyworkforyou.com/hansard.html) Run the following command:
+
+```
+rsync -az --progress --exclude '.svn' --exclude 'tmp/' --relative data.theyworkforyou.com::parldata/scrapedxml/debates/debates* .
+```
+
 # Running the website #
 To run the website you'll need to install [Elasticsearch](https://www.elastic.co/products/elasticsearch)
 
 Then run `initialise-es-db.pl` to set the mappings.
 
 Then run `people-parse.pl` to parse the 'people.json' file from TheyWorkForYou
+
+Then run `twfy-parse.pl` to parse the files under ./scrapedxml/debates
 
 Then run `people-add-twitter-profiles.pl` to parse the 'twitter.xml' file from TheyWorkForYou
 
