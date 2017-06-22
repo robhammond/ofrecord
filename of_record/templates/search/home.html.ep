@@ -9,7 +9,7 @@
 </form>
 <div class="row">
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-		<ul>
+		<ol>
 			% for my $res (@$results) {
 				% my $speech_id = $res->{'_source'}->{'speech_id'};
 				% $speech_id =~ s!^.*?/([^/]+)$!$1!;
@@ -23,9 +23,16 @@
 					</small></p>
 				</li>
 			% }
-		</ul>
+		</ol>
 	</div>
 </div>
+<div>
+    <ul class="pagination">
+    %== $pages
+    </ul>
+</div>
+% if (param 'dump') {
 <pre>
 %== dumper $results
 </pre>
+% }

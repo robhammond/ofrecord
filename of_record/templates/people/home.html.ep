@@ -7,6 +7,15 @@
 	</div>
 	<button type="submit" class="btn btn-primary">Search People</button>
 </form>
-<!--pre>
+
+<h3>List</h3>
+<ul>
+% for my $r (@$results) {
+	<li>
+		<a href="/person?id=<%= $r->{'_source'}->{'person_id'} %>"><%= $r->{'_source'}->{'full_name'} %></a>
+	</li>
+% }
+</ul>
+<pre>
 %== dumper $results
-</pre-->
+</pre>

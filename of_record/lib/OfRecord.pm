@@ -23,6 +23,8 @@ sub startup {
 	});
 	$self->helper('es' => sub { shift->app->es });
 
+	$self->plugin('OfRecord::Common');
+
 	# Router
 	my $r = $self->routes;
 

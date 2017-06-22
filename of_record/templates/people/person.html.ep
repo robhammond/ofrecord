@@ -1,7 +1,7 @@
 % layout 'default';
 % title $res->{'_source'}->{'full_name'} . ' Profile | Of Record';
 <h2><%= $res->{'_source'}->{'full_name'} %></h2>
-<p><a href="/person/words?id=<%= param 'id' %>">Words</a></p>
+<p><a href="/person/words?id=<%= param 'id' %>">Words</a> | <a href="/person/edit?id=<%= param 'id' %>">Edit</a></p>
 <div class="row">
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 		<h4>Identifiers</h4>

@@ -53,29 +53,23 @@ my $of_record = $es->indices->put_mapping(
     	hansard => {
 	        properties => {
 	        	speech => {
-	        		type => "string",
+	        		type => "text",
 					index => "analyzed",
 					analyzer => "english", # removes stopwords etc
         		},
 	            speaker_name => {
-	            	type => "multi_field",
+	            	type => "text",
 					fields => {
-						speaker_name => {
-							type => "string",
-						},
 						raw => {
-							type => "string",
-							index => "not_analyzed",
+							type => "keyword",
 						},
 					}
 	            },
 	            member_id => {
-	            	type => "string",
-	            	index => "not_analyzed"
+	            	type => "keyword",
             	},
             	person_id => {
-	            	type => "string",
-	            	index => "not_analyzed"
+	            	type => "keyword",
             	},
 	            date => {
 	            	type => "date",
@@ -95,28 +89,29 @@ $result = $es->indices->put_mapping(
     	person => {
 	        properties => {
 	            full_name => {
-	            	type => "multi_field",
+	            	type => "text",
 					fields => {
-						full_name => {
-							type => "string",
-						},
 						raw => {
-							type => "string",
-							index => "not_analyzed",
+							type => "keyword",
 						},
 					}
 	            },
 	            person_id => {
-	            	type => "string",
-	            	index => "not_analyzed"
+	            	type => "keyword",
 	            },
+	            # identifiers => {
+	            # 	type => 'nested',
+	            # 	properties => {
+	            # 		identifier => {
+	            # 			type => 'keyword'
+	            # 		}
+	            # 	}
+	            # },
 	            twitter_username => {
-	            	type => "string",
-	            	index => "not_analyzed"
+	            	type => "keyword",
 	            },
 	            wikipedia_url => {
-	            	type => "string",
-	            	index => "not_analyzed"
+	            	type => "keyword",
 	            },
 	        }
 		},
@@ -130,8 +125,7 @@ $result = $es->indices->put_mapping(
     	member => {
 	        properties => {
 	            person_id => {
-	            	type => "string",
-	            	index => "not_analyzed"
+	            	type => "keyword",
 	            },
 	            end_date => {
 	            	type => "date"
@@ -140,20 +134,16 @@ $result = $es->indices->put_mapping(
 	            	type => "date"
 	            },
 	            end_reason => {
-	            	type => "string",
-	            	index => "not_analyzed"
+	            	type => "keyword",
 	            },
 	            member_id => {
-	            	type => "string",
-	            	index => "not_analyzed"
+	            	type => "keyword",
 	            },
 	            post_id => {
-	            	type => "string",
-	            	index => "not_analyzed"
+	            	type => "keyword",
 	            },
 	            on_behalf_of_id => {
-	            	type => "string",
-	            	index => "not_analyzed"
+	            	type => "keyword",
 	            },
 	        }
 		},

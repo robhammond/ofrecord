@@ -25,6 +25,9 @@ for my $person (@{$json->{'persons'}}) {
 	# disabmiguate ID type
 	$person->{'person_id'} = $id;
 	delete $person->{'id'};
+
+	# delete for now - problematic types in ES5
+	delete $person->{'identifiers'};
 	
 	# try and get a 'full' name
 	my $full_name;

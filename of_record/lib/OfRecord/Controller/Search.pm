@@ -55,6 +55,9 @@ sub home {
                     speech => {fragment_size => 175, type => 'plain'},
                 }
             },
+            sort => {
+                datetime => {order => 'desc'}
+            }
         },
         size => $params{'num'},
         from => $params{'offset'},
@@ -71,6 +74,13 @@ sub home {
 		total_results => $total_results,
 		first_result => $first_result,
 		last_result => $last_result,
+        pages => $self->paginate({
+            total_hits => $total_results,
+            path => $self->req->url->path,
+            params => $self->req->params->to_hash,
+            num => $params{'num'},
+            offset => $params{'offset'},
+        }),
 	);
 }
 

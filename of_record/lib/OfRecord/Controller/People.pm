@@ -111,7 +111,7 @@ sub edit_people {
 
 sub edit_person {
     my $self = shift;
-    return $self->render() unless $self->param('id');
+    return $self->reply->exception("No ID!") unless $self->param('id');
     my $es = $self->es;
 
     my $id = $self->param('id');
@@ -142,7 +142,7 @@ sub edit_person {
 
 sub save_person {
     my $self = shift;
-    return $self->render() unless $self->param('id');
+    return $self->reply->exception("No id!") unless $self->param('id');
     my $es = $self->es;
 
     my $id = $self->param('id');
@@ -168,12 +168,11 @@ sub save_person {
     my $res = $es->update(
         index => 'ofrecord',
         type => 'person',
-        id => $id,
+        id => md5_hex($id),
         body => {
             doc => {
                 twitter_username => $self->param('twitter'),
                 wikipedia_url => $self->param('wikipedia'),
-                full_name => $self->param('full_name'),
             }
         }
     );

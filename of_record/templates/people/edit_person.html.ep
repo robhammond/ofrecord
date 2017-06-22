@@ -6,17 +6,24 @@
 <input type="hidden" name="id" value="<%= param 'id' %>">
 	<table class="table table-bordered table-striped">
 		<tbody>
-			<tr>
+			<!--tr>
 				<th>Full Name</th>
 				<td><input type="text" name="full_name" value="<%= $res->{'_source'}->{'twitter_username'} %>"></td>
-			</tr>
+			</tr-->
 			<tr>
-				<th>Twitter</th>
+				<th>Twitter username</th>
 				<td><input type="text" name="twitter" value="<%= $res->{'_source'}->{'twitter_username'} %>"></td>
 			</tr>
 			<tr>
-				<th>Wikipedia</th>
+				<th>Wikipedia URL</th>
 				<td><input type="text" name="wikipedia" value="<%= $res->{'_source'}->{'wikipedia_url'} %>"></td>
+			</tr>
+			<!--tr>
+				<th>Wikidata</th>
+				<td><input type="text" name="wikidata" value="<%= $res->{'_source'}->{'wikidata_url'} %>"></td>
+			</tr-->
+			<tr>
+				<td colspan="2"><button type="submit" class="btn btn-primary">Save</button></td>
 			</tr>
 		</tbody>
 	</table>
